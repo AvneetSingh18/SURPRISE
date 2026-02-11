@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Will you be my Valentine? 💌</title>
+    <!-- Google Fonts & Font Awesome for cute icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* reset & base – soft dreamy aesthetic */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(145deg, #fff9f7 0%, #ffeae5 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* floating hearts background (subtle animation) */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            color: rgba(255, 182, 193, 0.25);
+            font-size: 1.8rem;
+            animation: float 12s infinite ease-in-out;
+            user-select: none;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg) scale(0.8); opacity: 0; }
+            50% { opacity: 0.6; }
+            100% { transform: translateY(-20vh) rotate(20deg) scale(1.2); opacity: 0; }
+        }
+
+        /* main card – glassmorphism valentine vibe */
+        .valentine-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 48px 24px 48px 24px;
+            box-shadow: 0 25px 40px -15px rgba(229, 128, 146, 0.25),
+                        0 0 0 1px rgba(255, 215, 220, 0.6);
+            max-width: 680px;
+            width: 100%;
+            padding: 2.8rem 2.2rem;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            transition: 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+        }
+
+        /* heart pulse decoration */
+        .heart-icon-big {
+            font-size: 3.8rem;
+            color: #ff9a9e;
+            filter: drop-shadow(0 8px 12px rgba(255, 120, 140, 0.3));
+            animation: tinyPulse 2s infinite;
+            margin-bottom: 0.5rem;
+        }
+
+        @keyframes tinyPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+            100% { transform: scale(1); }
+        }
+
+        /* main heartfelt text — personalized for Aashi */
+        .valentine-message {
+            font-size: 1.7rem;
+            font-weight: 600;
+            color: #4a2e35;
+            line-height: 1.4;
+            margin: 1.2rem 0 0.8rem 0;
+            letter-spacing: -0.01em;
+        }
+
+        .message-lines {
+            background: rgba(255, 255, 240, 0.5);
+            padding: 1.2rem 0.8rem;
+            border-radius: 60px 20px 60px 20px;
+            margin-bottom: 1rem;
+        }
+
+        .line {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #602437;
+            text-shadow: 2px 2px 10px rgba(255, 220, 220, 0.6);
+        }
+
+        .line i {
+            color: #ff6b7e;
+            margin: 0 6px;
+        }
+
+        .tiny-quote {
+            font-size: 1.2rem;
+            color: #b95b6b;
+            margin-top: 0.5rem;
+            font-style: italic;
+            font-weight: 500;
+        }
+
+        /* question "will you be my valentine?" */
+        .ask-big {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 1.4rem 0 2rem 0;
+            color: #882d3a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .ask-big span {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 0.3rem 1rem;
+            border-radius: 60px;
+            box-shadow: 0 6px 0 #ffe2d4;
+        }
+
+        /* button container - positioning relative for the growth effect */
+        .button-panel {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2.2rem;
+            margin-top: 1.6rem;
+            flex-wrap: wrap;
+            position: relative;
+            min-height: 100px;
+        }
+
+        /* both buttons – rounded, modern */
+        .btn {
+            border: none;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            padding: 1rem 2.5rem;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 0 rgba(0, 0, 0, 0.04), 0 10px 25px rgba(241, 124, 143, 0.3);
+            border: 1px solid rgba(255,255,255,0.7);
+            position: relative;
+            z-index: 5;
+        }
+
+        /* YES button – grows like crazy on no hover */
+        .btn-yes {
+            background: #ff8a9c;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            border-bottom: 4px solid #c45d6b;
+            transform: scale(1);
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 10;
+        }
+
+        .btn-yes:hover {
+            background: #ff6b81;
+            border-bottom-width: 2px;
+            transform: scale(1.06);
+            box-shadow: 0 12px 28px rgba(255, 107, 129, 0.5);
+        }
+
+        /* NO button – starts normal */
+        .btn-no {
+            background: #fce4e4;
+            color: #783b44;
+            border-bottom: 4px solid #dbb1b1;
+            box-shadow: 0 8px 0 #e2c0c0, 0 10px 25px rgba(180, 130, 130, 0.2);
+            transition: all 0.3s ease;
+            z-index: 8;
+        }
+
+        .btn-no i {
+            color: #b3707a;
+            font-size: 1.7rem;
+        }
+
+        /* THE MAGIC: on hover over NO button, YES button grows HUGE and covers it */
+        .btn-no:hover ~ .btn-yes, 
+        .btn-no:active ~ .btn-yes,
+        .button-panel:hover .btn-no:hover + .btn-yes,
+        .btn-yes:hover {
+            transform: scale(1.8);
+            margin-right: -40px;
+            z-index: 20;
+            box-shadow: 0 15px 35px rgba(255, 107, 129, 0.7);
+        }
+
+        /* when YES grows, NO becomes tiny and fades */
+        .btn-no:hover {
+            transform: scale(0.5);
+            opacity: 0.3;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        /* Extra protection - on hover over NO, it becomes unclickable and YES dominates */
+        .btn-no:hover {
+            opacity: 0.2;
+            visibility: visible; /* keep it visible but tiny */
+            pointer-events: none;
+            cursor: default;
+        }
+
+        /* response message after clicking YES (hidden at first) */
+        .response-message {
+            margin-top: 2.5rem;
+            padding: 1.8rem 1rem;
+            background: rgba(255, 235, 235, 0.7);
+            backdrop-filter: blur(8px);
+            border-radius: 40px 12px 40px 12px;
+            font-size: 1.8rem;
+            color: #74242e;
+            font-weight: 700;
+            border: 2px dashed #ffb7bc;
+            display: none;
+        }
+
+        .response-message.show {
+            display: block;
+            animation: fadeInUp 0.8s;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* extra love for mobile */
+        @media (max-width: 550px) {
+            .valentine-card { padding: 1.8rem 1.2rem; }
+            .valentine-message { font-size: 1.4rem; }
+            .line { font-size: 1.2rem; }
+            .btn { font-size: 1.5rem; padding: 0.8rem 1.8rem; }
+            .ask-big { font-size: 1.6rem; }
+            
+            /* adjust growth for mobile */
+            .btn-no:hover ~ .btn-yes {
+                transform: scale(1.5);
+                margin-right: -20px;
+            }
+        }
+
+        /* signature – tiny detail */
+        .signature {
+            margin-top: 2.2rem;
+            font-size: 1rem;
+            color: #af7b82;
+            letter-spacing: 2px;
+            font-weight: 400;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <!-- background floating hearts (romantic) -->
+    <div class="floating-hearts">
+        <div class="heart" style="left: 5%; animation-delay: 0s; bottom: -10%;"><i class="fas fa-heart"></i></div>
+        <div class="heart" style="left: 15%; animation-delay: 3s; font-size: 2.2rem; bottom: -20%;"><i class="fas fa-heart"></i></div>
+        <div class="heart" style="left: 25%; animation-delay: 6s; bottom: -5%;"><i class="fas fa-heart"></i></div>
+        <div class="heart" style="left: 40%; animation-delay: 1.5s; font-size: 2.5rem; bottom: -15%;"><i class="fas fa-heart"></i></div>
+        <div class="heart" style="left: 55%; animation-delay: 4.5s; bottom: -25%;"><i class="fas fa-heart"></i></div>
+        <div class="heart" style="left: 70%; animation-delay: 2s; bottom: -30%;"><i class="fas fa-heart"></i></div>
+        <div class="heart" style="left: 85%; animation-delay: 7s; bottom: -10%;"><i class="fas fa-heart"></i></div>
+        <div class="heart" style="left: 92%; animation-delay: 0.5s; bottom: -40%;"><i class="fas fa-heart"></i></div>
+        <div class="heart" style="left: 10%; animation-delay: 5s; bottom: -50%;"><i class="fas fa-heart"></i></div>
+        <div class="heart" style="left: 48%; animation-delay: 8s; bottom: -60%;"><i class="fas fa-heart"></i></div>
+    </div>
+
+    <!-- main Valentine proposal card -->
+    <div class="valentine-card">
+        <div class="heart-icon-big">
+            <i class="fas fa-heart"></i> <i class="fas fa-heart" style="font-size: 2.8rem; color: #ffb3b3;"></i> <i class="fas fa-heart"></i>
+        </div>
+
+        <!-- PERSONALIZED MESSAGE FOR AASHI - 2 days, casual, sweet -->
+        <div class="message-lines">
+            <span class="line"><i class="fas fa-star"></i> Hi Aashi, I know it's only been 3 days... <i class="fas fa-star"></i></span>
+            <span class="line">but somehow you've already made my world brighter,</span>
+            <span class="line">your texts make me smile, your vibe feels like home,</span>
+            <span class="line">and I just have this feeling we should give this a chance ✨</span>
+        </div>
+        <div class="tiny-quote">
+            <i class="fas fa-heart"></i> not a proposal, just a chance — on Valentine's of all days <i class="fas fa-heart"></i>
+        </div>
+        
+        <!-- The big question -->
+        <div class="ask-big">
+            <span>🌸 will you be my Valentine? 🌸</span>
+        </div>
+
+        <!-- BUTTONS: YES and the NO that makes YES grow & cover it -->
+        <div class="button-panel">
+            <button class="btn btn-yes" id="yesBtn">
+                <i class="fas fa-check-circle"></i> YES 
+            </button>
+            <button class="btn btn-no" id="noBtn">
+                <i class="fas fa-times-circle"></i> NO 
+            </button>
+        </div>
+
+        <!-- hidden sweet reply – shows only when YES is clicked -->
+        <div id="responseMessage" class="response-message">
+            💖💖💖 Aashi! You just made my day! 💖💖💖 <br>
+            Can't wait to see where this goes... Happy Valentine's! 💌 <br>
+            <i class="fas fa-heart" style="color:#ff4d6d; margin-top: 0.8rem;"></i> 
+            <i class="fas fa-heart" style="color:#ff8c9e;"></i> 
+            <i class="fas fa-heart" style="color:#ffb3c1;"></i>
+        </div>
+
+        <!-- signature with your name - change this! -->
+        <div class="signature">
+            ✨ with hope, Avneet ✨
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            "use strict";
+
+            // ----- 🎀 VALENTINE MAGIC FOR AASHI 🎀 -----
+            // Yes button grows to cover No button on hover!
+            
+            const yesButton = document.getElementById('yesBtn');
+            const noButton = document.getElementById('noBtn');
+            const responseEl = document.getElementById('responseMessage');
+
+            // when YES is clicked – reveal the lovely message
+            yesButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                responseEl.classList.add('show');
+                
+                // little pop effect
+                yesButton.style.transform = 'scale(1.2)';
+                setTimeout(() => { yesButton.style.transform = ''; }, 300);
+                
+                // scroll to response
+                responseEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                
+                // make NO button even more tiny as a final victory
+                noButton.style.transform = 'scale(0.3)';
+                noButton.style.opacity = '0.1';
+                noButton.style.pointerEvents = 'none';
+            });
+
+            // NO button hover - makes YES grow (already in CSS, but adding JS for extra oomph)
+            noButton.addEventListener('mouseenter', function() {
+                yesButton.style.transform = 'scale(1.9)';
+                yesButton.style.marginRight = '-50px';
+                yesButton.style.zIndex = '30';
+                yesButton.style.boxShadow = '0 20px 40px rgba(255, 80, 120, 0.8)';
+                
+                this.style.transform = 'scale(0.4)';
+                this.style.opacity = '0.1';
+                this.style.pointerEvents = 'none';
+            });
+
+            noButton.addEventListener('mouseleave', function() {
+                // restore when not hovering (unless YES was clicked)
+                if (!responseEl.classList.contains('show')) {
+                    yesButton.style.transform = '';
+                    yesButton.style.marginRight = '';
+                    yesButton.style.zIndex = '';
+                    yesButton.style.boxShadow = '';
+                    
+                    this.style.transform = '';
+                    this.style.opacity = '';
+                    this.style.pointerEvents = '';
+                }
+            });
+
+            // mobile touch support
+            noButton.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                yesButton.style.transform = 'scale(1.9)';
+                yesButton.style.marginRight = '-50px';
+                yesButton.style.zIndex = '30';
+                
+                this.style.transform = 'scale(0.4)';
+                this.style.opacity = '0.1';
+                this.style.pointerEvents = 'none';
+            });
+
+            // reset when touching elsewhere
+            document.addEventListener('touchstart', function(e) {
+                if (!noButton.contains(e.target) && !responseEl.classList.contains('show')) {
+                    noButton.style.transform = '';
+                    noButton.style.opacity = '';
+                    noButton.style.pointerEvents = '';
+                    yesButton.style.transform = '';
+                    yesButton.style.marginRight = '';
+                    yesButton.style.zIndex = '';
+                    yesButton.style.boxShadow = '';
+                }
+            });
+
+            // reset on resize
+            window.addEventListener('resize', function() {
+                if (!responseEl.classList.contains('show')) {
+                    noButton.style.transform = '';
+                    noButton.style.opacity = '';
+                    noButton.style.pointerEvents = '';
+                    yesButton.style.transform = '';
+                    yesButton.style.marginRight = '';
+                    yesButton.style.zIndex = '';
+                    yesButton.style.boxShadow = '';
+                }
+            });
+
+            // make sure NO button can't be clicked at all
+            noButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // make YES grow aggressively
+                yesButton.style.transform = 'scale(2.2)';
+                yesButton.style.marginRight = '-60px';
+                
+                this.style.transform = 'scale(0.2)';
+                this.style.opacity = '0';
+                this.style.pointerEvents = 'none';
+                
+                // cute alert
+                alert('❤️ Nice try! But the YES button is too powerful! 😄');
+            });
+
+        })();
+    </script>
+</body>
+</html>
